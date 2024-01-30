@@ -77,6 +77,7 @@ struct WeatherView: View {
                         .sheet(isPresented: $showCityWeather, content: {
                         CityWeatherDetails(model: data)
             //                .presentationDetents([.medium])
+                                .presentationDragIndicator(.visible)
                     })
                 }
             }

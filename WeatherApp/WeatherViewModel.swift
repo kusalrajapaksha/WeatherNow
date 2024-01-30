@@ -19,12 +19,19 @@ final class WeatherManager{
 
 struct WeatherModel: Codable, Hashable{
     let location: String
-    let temperature: Int
+    let temperature: Temperature
     let windSpeed: Double
     let humidity: Double
     let description: String
     let iconCode: String
 }
+
+struct Temperature: Codable, Hashable{
+    let current: Int
+    let max: Int
+    let min: Int
+}
+
 
 class WeatherViewModel: ObservableObject{
     
@@ -57,7 +64,13 @@ class WeatherViewModel: ObservableObject{
                 let location = jsonObject["name"] as? String ?? ""
                 
                 let main = jsonObject["main"] as? [String: Any]
-                let temperature = main?["temp"] as? Double ?? 0.0
+                
+                let current_temp = main?["temp"] as? Double ?? 0.0
+                let max_temp = main?["temp_max"] as? Double ?? 0.0
+                let min_temp = main?["temp_min"] as? Double ?? 0.0
+                
+                let temp_object = Temperature(current: Int(current_temp), max: Int(max_temp), min: Int(min_temp))
+                
                 let humidity = main?["humidity"] as? Double ?? 0.0
                 
                 let wind = jsonObject["wind"] as? [String: Any]
@@ -78,7 +91,7 @@ class WeatherViewModel: ObservableObject{
                         
                 
                 
-                return WeatherModel(location: location, temperature:  Int(temperature), windSpeed: wind_speed, humidity: humidity,description: description, iconCode: iconCode)
+                return WeatherModel(location: location, temperature:  temp_object, windSpeed: wind_speed, humidity: humidity,description: description, iconCode: iconCode)
                
             }else{
                 return nil

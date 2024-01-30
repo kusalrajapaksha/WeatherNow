@@ -30,10 +30,9 @@ struct CityCellView: View {
                     VStack(content: {
                         HStack{
                             Spacer().frame(width: 40)
-                            Text(String(model.temperature) + "°")
+                            Text(String(model.temperature.current) + "°")
                                 .frame(height: geo.size.height/3)
-                                .fontWeight(.heavy)
-                                .font(Font.system(size: 200))
+                                .font(.custom(CustomFonts.ExoBold, size: 70))
                                 .minimumScaleFactor(0.01)
 //                                .offset(x: geo.size.width/10)
                                 .foregroundColor(.white)
@@ -46,7 +45,7 @@ struct CityCellView: View {
                         HStack{
                             Spacer().frame(width: 40)
                             Text(model.location)
-                                .font(.title2)
+                                .font(.custom(CustomFonts.ExoBold, size: 30))
                                 .foregroundColor(.white)
                                 .padding(.bottom, 20)
                                 
@@ -133,5 +132,5 @@ struct CellBGShape: Shape {
 
 
 #Preview {
-    CityCellView(model: WeatherModel(location: "New York", temperature: 23, windSpeed: 23.0, humidity: 23.0,description: "",iconCode: ""))
+    CityCellView(model: WeatherModel(location: "New York", temperature: Temperature(current: 23, max: 24, min: 20), windSpeed: 23.0, humidity: 23.0,description: "",iconCode: ""))
 }

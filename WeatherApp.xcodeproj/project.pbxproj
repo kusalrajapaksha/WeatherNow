@@ -17,6 +17,9 @@
 		59B70E202B5E9BEA00413156 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B70E1F2B5E9BEA00413156 /* Extensions.swift */; };
 		59B70E222B5EA49800413156 /* CityCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B70E212B5EA49800413156 /* CityCellView.swift */; };
 		59CA7C1B2B68BA3C007BF72C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CA7C1A2B68BA3C007BF72C /* APIManager.swift */; };
+		59CA7C202B68C935007BF72C /* Exo-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59CA7C1F2B68C935007BF72C /* Exo-Bold.ttf */; };
+		59CA7C232B68CAB9007BF72C /* CustomFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CA7C222B68CAB9007BF72C /* CustomFonts.swift */; };
+		59CA7C252B68CAEC007BF72C /* Exo-Medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 59CA7C242B68CAEC007BF72C /* Exo-Medium.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +34,10 @@
 		59B70E1F2B5E9BEA00413156 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		59B70E212B5EA49800413156 /* CityCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCellView.swift; sourceTree = "<group>"; };
 		59CA7C1A2B68BA3C007BF72C /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
+		59CA7C1F2B68C935007BF72C /* Exo-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-Bold.ttf"; path = "../../../../../../Downloads/Exo/static/Exo-Bold.ttf"; sourceTree = "<group>"; };
+		59CA7C212B68C969007BF72C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		59CA7C222B68CAB9007BF72C /* CustomFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFonts.swift; sourceTree = "<group>"; };
+		59CA7C242B68CAEC007BF72C /* Exo-Medium.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "Exo-Medium.ttf"; path = "../../../../../../Downloads/Exo/static/Exo-Medium.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +70,8 @@
 		59B70E062B5E12C100413156 /* WeatherApp */ = {
 			isa = PBXGroup;
 			children = (
+				59CA7C212B68C969007BF72C /* Info.plist */,
+				59CA7C1C2B68C8FF007BF72C /* Resources */,
 				59B70E072B5E12C100413156 /* WeatherAppApp.swift */,
 				59B70E092B5E12C100413156 /* ContentView.swift */,
 				59B70E0B2B5E12C200413156 /* Assets.xcassets */,
@@ -73,6 +82,7 @@
 				59B70E212B5EA49800413156 /* CityCellView.swift */,
 				5999D8552B684AAB00ABCBA4 /* CityWeatherDetails.swift */,
 				59CA7C1A2B68BA3C007BF72C /* APIManager.swift */,
+				59CA7C222B68CAB9007BF72C /* CustomFonts.swift */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -83,6 +93,23 @@
 				59B70E0E2B5E12C200413156 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		59CA7C1C2B68C8FF007BF72C /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				59CA7C1E2B68C914007BF72C /* CustomFonts */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		59CA7C1E2B68C914007BF72C /* CustomFonts */ = {
+			isa = PBXGroup;
+			children = (
+				59CA7C242B68CAEC007BF72C /* Exo-Medium.ttf */,
+				59CA7C1F2B68C935007BF72C /* Exo-Bold.ttf */,
+			);
+			path = CustomFonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -143,6 +170,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59CA7C252B68CAEC007BF72C /* Exo-Medium.ttf in Resources */,
+				59CA7C202B68C935007BF72C /* Exo-Bold.ttf in Resources */,
 				59B70E0F2B5E12C200413156 /* Preview Assets.xcassets in Resources */,
 				59B70E0C2B5E12C200413156 /* Assets.xcassets in Resources */,
 			);
@@ -158,6 +187,7 @@
 				59CA7C1B2B68BA3C007BF72C /* APIManager.swift in Sources */,
 				59B70E202B5E9BEA00413156 /* Extensions.swift in Sources */,
 				5999D8562B684AAB00ABCBA4 /* CityWeatherDetails.swift in Sources */,
+				59CA7C232B68CAB9007BF72C /* CustomFonts.swift in Sources */,
 				59B70E1C2B5E885900413156 /* WeatherView.swift in Sources */,
 				59B70E1E2B5E886A00413156 /* WeatherViewModel.swift in Sources */,
 				59B70E0A2B5E12C100413156 /* ContentView.swift in Sources */,
@@ -299,6 +329,7 @@
 				DEVELOPMENT_TEAM = 49893UM4W9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -328,6 +359,7 @@
 				DEVELOPMENT_TEAM = 49893UM4W9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = WeatherApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
