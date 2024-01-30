@@ -20,7 +20,7 @@ final class WeatherManager{
 struct WeatherModel: Codable, Hashable{
     let location: String
     let temperature: Temperature
-    let windSpeed: Double
+    let wind: Wind
     let humidity: Double
     let description: String
     let iconCode: String
@@ -31,6 +31,12 @@ struct Temperature: Codable, Hashable{
     let max: Int
     let min: Int
 }
+
+struct Wind: Codable, Hashable{
+    let windSpeed: Double
+    let direction: Double
+}
+
 
 
 class WeatherViewModel: ObservableObject{
@@ -53,7 +59,7 @@ class WeatherViewModel: ObservableObject{
     }
     
     func refreshData(cityName: String) async -> WeatherModel?{
-        return await createWeatherData(cityName: "Colombo") ?? nil
+        return await createWeatherData(cityName: cityName) ?? nil
     }
     
     func createWeatherData(cityName: String) async -> WeatherModel?{
@@ -71,30 +77,26 @@ class WeatherViewModel: ObservableObject{
                 let current_temp = main?["temp"] as? Double ?? 0.0
                 let max_temp = main?["temp_max"] as? Double ?? 0.0
                 let min_temp = main?["temp_min"] as? Double ?? 0.0
-                
                 let temp_object = Temperature(current: Int(current_temp), max: Int(max_temp), min: Int(min_temp))
                 
                 let humidity = main?["humidity"] as? Double ?? 0.0
                 
                 let wind = jsonObject["wind"] as? [String: Any]
                 let wind_speed = wind?["speed"] as? Double ?? 0.0
+                let wind_direction = wind?["deg"] as? Double ?? 0.0
+                let wind_object = Wind(windSpeed: wind_speed, direction: wind_direction)
                 
-//                let weather = jsonObject["weather"] as? NSDictionary
-//                if let weatherArray = weather{
-//                    let description = weather["description"] as? String ?? "---"
-//                    let iconCode = weather["icon"]
-//                    print("KKK \(weatherArray)")
-//                }
+                var description: String = "--"
+                var iconCode: String = "--"
+                
+                let weatherArray = jsonObject["weather"] as? Array<Any>
+                if let weatherArray = weatherArray{
+                    let weatherJson = weatherArray.first as? [String: Any]
+                    description = weatherJson?["description"] as? String ?? "--"
+                    iconCode = weatherJson?["icon"] as? String ?? "--"
+                }
 
-                
-                let description = "description"
-                let iconCode = "02d"
-                
-                
-                        
-                
-                
-                return WeatherModel(location: location, temperature:  temp_object, windSpeed: wind_speed, humidity: humidity,description: description, iconCode: iconCode)
+                return WeatherModel(location: location, temperature:  temp_object, wind: wind_object, humidity: humidity,description: description, iconCode: iconCode)
                
             }else{
                 return nil

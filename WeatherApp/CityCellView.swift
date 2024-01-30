@@ -23,24 +23,31 @@ struct CityCellView: View {
             }
             
                 
-//            Color.black
-                
             GeometryReader{ geo in
                 HStack{
                     VStack(content: {
                         HStack{
                             Spacer().frame(width: 40)
-                            Text(String(model.temperature.current) + "°")
+                            Text(String(model.temperature.current) + "°C")
                                 .frame(height: geo.size.height/3)
                                 .font(.custom(CustomFonts.ExoBold, size: 70))
                                 .minimumScaleFactor(0.01)
-//                                .offset(x: geo.size.width/10)
                                 .foregroundColor(.white)
                             Spacer()
                         }
                         .padding(.top, 40)
                         
-                        Spacer()
+                        HStack{
+                            Spacer().frame(width: 40)
+                            Text("H " + String(model.temperature.max) + "°C")
+                                .font(.custom(CustomFonts.ExoMedium, size: 10))
+                                .foregroundColor(.white)
+                            Text("L " + String(model.temperature.min) + "°C")
+                                .font(.custom(CustomFonts.ExoMedium, size: 10))
+                                .foregroundColor(.white)
+                                
+                            Spacer()
+                        }
                         
                         HStack{
                             Spacer().frame(width: 40)
@@ -59,22 +66,27 @@ struct CityCellView: View {
                     VStack(alignment: .trailing){
                         
                         AsyncImage(url: URL(string: "https://openweathermap.org/img/wn/\(model.iconCode)@2x.png")) { image in
-                            image.resizable().offset(x: 15, y: 0)
+                            image.resizable().offset(x: 0, y: 0)
+                                
+                            
                         } placeholder: {
                             Image("windy-weather")
                                 .resizable()
-                                .frame(width: 150,height: 150)
-                               
+                                .renderingMode(.template)
+                                .frame(width: 100,height: 100)
                                 .foregroundColor(.white)
-                                .offset(x: 15, y: 0)
+                                .offset(x: 0, y: 0)
                         }
                         .frame(width: 150,height: 150)
+                        .background(LinearGradient(colors: [Color(hex: "#F7CBFD"),Color(hex: "#7758D1")], startPoint: .topLeading, endPoint: .bottomTrailing))
+                        .cornerRadius(75)
+                        .shadow(color: .black.opacity(0.5), radius: 1, x: 0, y:2)
 
                         
                         Spacer()
                         
                         ZStack(alignment: .trailing){
-                            Text(String(model.description))
+                            Text(String(model.description.capitalized))
                                 .bold()
                                 .foregroundColor(.white)
                                 .padding(.bottom,40)
@@ -119,8 +131,7 @@ struct CellBGShape: Shape {
                 clockwise: true)
             
             path.addArc(tangent1End: CGPoint(x: rect.width, y: rect.height*0.4), tangent2End: CGPoint(x: start_x, y: start_y), radius: cornerRadius)
-//            path.addLine(to: CGPoint(x: rect.width, y: rect.height*0.4))
-    
+
             path.closeSubpath()
         }
     }
@@ -132,5 +143,5 @@ struct CellBGShape: Shape {
 
 
 #Preview {
-    CityCellView(model: WeatherModel(location: "New York", temperature: Temperature(current: 23, max: 24, min: 20), windSpeed: 23.0, humidity: 23.0,description: "",iconCode: ""))
+    CityCellView(model: WeatherModel(location: "New York", temperature: Temperature(current: 23, max: 24, min: 20), wind: Wind(windSpeed: 4, direction: 45), humidity: 23.0,description: "",iconCode: ""))
 }

@@ -17,11 +17,21 @@ struct CityWeatherDetails: View {
     @State private var arrowRotation = 0.0
     @State private var showProgressView = false
     
+    var cities = ["Colombo", "New York", "Tokyo"]
+    @State private var number: Int = 0
+    
+    var points : [UnitPoint] = [.top,.bottom,.topTrailing, .bottomLeading, .trailing, .leading, .bottomTrailing, .topLeading, .bottom, .top, .bottomLeading, .topTrailing, .leading, .trailing, .topLeading, .bottomTrailing]
+    @State var startPoint: UnitPoint = .top
+    @State var endPoint: UnitPoint = .bottom
+    @State var startIndex: Int = 0
+    @State var endIndex: Int = 1
+    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    
     var body: some View {
         
         ZStack {
-            LinearGradient(colors: [Color(hex: "#5D36B4"),Color(hex: "#362A84")], startPoint: .top, endPoint: .bottom)
-            /*LinearGradient(colors: [Color(hex: "#2E335A"),Color(hex: "#1C1B33")], startPoint: .top, endPoint: .bottom)*/.edgesIgnoringSafeArea(.all)
+            LinearGradient(colors: [Color(hex: "#5D36B4"),Color(hex: "#362A84")], startPoint: points[startIndex], endPoint: points[endIndex])
+            /*LinearGradient(colors: [Color.red,Color.green], startPoint: startPoint, endPoint: endPoint)*/.edgesIgnoringSafeArea(.all)
             
             VStack{
                 HStack{
@@ -47,6 +57,18 @@ struct CityWeatherDetails: View {
                                     
                                 }
                             }
+                    }
+                    .onChange(of: number) { newValue in
+                        let newCity = cities[number]
+                        Task{
+                            showProgressView = true
+                            guard let newModel =  await viewModel.refreshData(cityName: newCity) else{return}
+                            model = newModel
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                showProgressView = false
+                            })
+                            
+                        }
                     }
                     
                 }
@@ -102,12 +124,13 @@ struct CityWeatherDetails: View {
                         .foregroundColor(.white)
                         .offset(x: 15, y: 0)
                 }
-                .frame(width: 150,height: 150)
+                .frame(width: 150,height: 150,alignment: .center)
                 
-                Text(model.description)
+                Text(model.description.capitalized)
                     .font(.custom(CustomFonts.ExoMedium, size: 30))
                     .fontWeight(.medium)
                     .foregroundColor(Color.white)
+                    .padding(.top,0)
                 
                 HStack{
                     Text("HUMIDITY")
@@ -142,7 +165,7 @@ struct CityWeatherDetails: View {
                     
                     Divider().frame(width: 2, height: 30).background(.white)
                         
-                    Text(String(model.windSpeed)+" km/h")
+                    Text(String(model.wind.windSpeed)+" km/h")
                         .font(.custom(CustomFonts.ExoMedium, size: 20))
                         .fontWeight(.medium)
                         .foregroundColor(Color.white)
@@ -156,10 +179,17 @@ struct CityWeatherDetails: View {
                         .resizable()
                         .renderingMode(.template)
                         .scaledToFit()
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.mint)
                         .rotationEffect(.degrees(fanRotation))
                         .onAppear {
-                            fanDuration = 20/(3 * model.windSpeed + 10)
+                            fanDuration = 20/(3 * model.wind.windSpeed + 10)
+                            withAnimation(.linear(duration: fanDuration)
+                                    .repeatForever(autoreverses: false)) {
+                                fanRotation = 360.0
+                            }
+                        }
+                        .onChange(of: model) { oldValue, newValue in
+                            fanDuration = 20/(3 * newValue.wind.windSpeed + 10)
                             withAnimation(.linear(duration: fanDuration)
                                     .repeatForever(autoreverses: false)) {
                                 fanRotation = 360.0
@@ -169,21 +199,55 @@ struct CityWeatherDetails: View {
                         .resizable()
                         .renderingMode(.template)
                         .scaledToFit()
-                        .foregroundColor(Color.white)
+                        .foregroundColor(Color.accentColor)
                         .frame(height: 50)
                         .rotationEffect(.degrees(-90))
                         .rotationEffect(.degrees(arrowRotation - 180))
                         .onAppear{
                             withAnimation {
-                                arrowRotation = 0
+                                arrowRotation = model.wind.direction
+                            }
+                        }
+                        .onChange(of: model) { oldValue, newValue in
+                            withAnimation {
+                                arrowRotation = newValue.wind.direction
                             }
                         }
                         
+                        
                 }
-                .frame(height: 80)
+                .frame(height: 60)
+                
+                Picker("City", selection: $number) {
+                    ForEach(0..<cities.count, id: \.self) { index in
+                        Text(cities[index])
+                            .foregroundColor(.white)
+                    }
+                }
+                .pickerStyle(.wheel)
+                .frame(width: 400, height: 100, alignment: .center)
+                    
+                    
+                    
                 
                 Spacer()
                 
+            }
+        }
+        .onReceive(timer) { _ in
+            // Change the background color
+            if startIndex < points.count - 2{
+                withAnimation(.linear(duration: 1)) {
+                    startIndex += 2
+                    endIndex = startIndex + 1
+                }
+            }
+            
+            if startIndex == points.count - 2{
+                withAnimation(.linear(duration: 1)) {
+                    startIndex = 0
+                    endIndex = startIndex + 1
+                }
             }
         }
        
@@ -191,5 +255,5 @@ struct CityWeatherDetails: View {
 }
 
 #Preview {
-    CityWeatherDetails(viewModel: WeatherViewModel(), model: WeatherModel(location: "New York", temperature: Temperature(current: 23, max: 24, min: 20), windSpeed: 4.0, humidity: 23.0,description: "Rainy day",iconCode: "02d"))
+    CityWeatherDetails(viewModel: WeatherViewModel(), model: WeatherModel(location: "New York", temperature: Temperature(current: 23, max: 24, min: 20), wind: Wind(windSpeed: 4, direction: 45), humidity: 23.0,description: "Rainy day",iconCode: "02d"))
 }

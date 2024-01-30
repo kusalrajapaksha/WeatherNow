@@ -12,8 +12,9 @@ struct WeatherView: View {
     @StateObject private var viewModel = WeatherViewModel()
     @State var searchText: String = ""
     @Environment(\.presentationMode) var presentationMode
-    
+
     @State var showCityWeather: Bool = false
+    @State var selectedModelData: WeatherModel? = nil
     
     var body: some View {
         ZStack{
@@ -74,11 +75,12 @@ struct WeatherView: View {
                         .onTapGesture {
                             showCityWeather.toggle()
                         }
+                        
                         .sheet(isPresented: $showCityWeather, content: {
                             CityWeatherDetails(viewModel: viewModel, model: data)
-            //                .presentationDetents([.medium])
+                //                .presentationDetents([.medium])
                                 .presentationDragIndicator(.visible)
-                    })
+                        })
                 }
             }
             .padding(.top, 20)
@@ -86,6 +88,7 @@ struct WeatherView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .scrollIndicators(.hidden)
         .padding()
+        
         
     }
 }
