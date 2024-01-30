@@ -16,6 +16,7 @@
 		59B70E1E2B5E886A00413156 /* WeatherViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B70E1D2B5E886A00413156 /* WeatherViewModel.swift */; };
 		59B70E202B5E9BEA00413156 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B70E1F2B5E9BEA00413156 /* Extensions.swift */; };
 		59B70E222B5EA49800413156 /* CityCellView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B70E212B5EA49800413156 /* CityCellView.swift */; };
+		59CA7C1B2B68BA3C007BF72C /* APIManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59CA7C1A2B68BA3C007BF72C /* APIManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +30,7 @@
 		59B70E1D2B5E886A00413156 /* WeatherViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherViewModel.swift; sourceTree = "<group>"; };
 		59B70E1F2B5E9BEA00413156 /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		59B70E212B5EA49800413156 /* CityCellView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityCellView.swift; sourceTree = "<group>"; };
+		59CA7C1A2B68BA3C007BF72C /* APIManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				59B70E1F2B5E9BEA00413156 /* Extensions.swift */,
 				59B70E212B5EA49800413156 /* CityCellView.swift */,
 				5999D8552B684AAB00ABCBA4 /* CityWeatherDetails.swift */,
+				59CA7C1A2B68BA3C007BF72C /* APIManager.swift */,
 			);
 			path = WeatherApp;
 			sourceTree = "<group>";
@@ -152,6 +155,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				59CA7C1B2B68BA3C007BF72C /* APIManager.swift in Sources */,
 				59B70E202B5E9BEA00413156 /* Extensions.swift in Sources */,
 				5999D8562B684AAB00ABCBA4 /* CityWeatherDetails.swift in Sources */,
 				59B70E1C2B5E885900413156 /* WeatherView.swift in Sources */,

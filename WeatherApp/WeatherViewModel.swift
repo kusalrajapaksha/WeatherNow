@@ -11,7 +11,7 @@ import SwiftUI
 final class WeatherManager{
     
     func downloadWeatherData(cityName: String) async throws -> Data?{
-        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&units=Metric&APPID=9d389f5542dfa050ab5519863d41f922") else {return nil}
+        guard let url = URL(string: "https://api.openweathermap.org/data/2.5/weather?q=\(cityName)&units=Metric&APPID=\(APIManager.apiKey)") else {return nil}
         let (data, _) = try await URLSession.shared.data(from: url)
         return data
     }
