@@ -9,23 +9,56 @@ import SwiftUI
 
 struct CityWeatherDetails: View {
     
-    let model: WeatherModel
+    @ObservedObject var viewModel: WeatherViewModel
+    @State var model: WeatherModel
     
     @State private var fanRotation = 0.0
     @State private var fanDuration = 0.0
     @State private var arrowRotation = 0.0
-    
+    @State private var showProgressView = false
     
     var body: some View {
         
         ZStack {
-            LinearGradient(colors: [Color(hex: "#2E335A"),Color(hex: "#1C1B33")], startPoint: .top, endPoint: .bottom).edgesIgnoringSafeArea(.all)
+            LinearGradient(colors: [Color(hex: "#5D36B4"),Color(hex: "#362A84")], startPoint: .top, endPoint: .bottom)
+            /*LinearGradient(colors: [Color(hex: "#2E335A"),Color(hex: "#1C1B33")], startPoint: .top, endPoint: .bottom)*/.edgesIgnoringSafeArea(.all)
+            
+            VStack{
+                HStack{
+                    Spacer()
+                    HStack{
+                        ProgressView()
+                            .opacity(showProgressView ? 1.0 : 0.0)
+                            .progressViewStyle(.circular)
+                            .tint(Color.white)
+                        
+                        Text("Refresh")
+                            .padding()
+                            .font(.custom(CustomFonts.ExoMedium, size: 16))
+                            .foregroundColor(.white.opacity(0.7))
+                            .onTapGesture {
+                                Task{
+                                    showProgressView = true
+                                    guard let newModel =  await viewModel.refreshData(cityName: model.location) else{return}
+                                    model = newModel
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5, execute: {
+                                        showProgressView = false
+                                    })
+                                    
+                                }
+                            }
+                    }
+                    
+                }
+                
+                Spacer()
+            }
+            
             VStack{
                 Text(model.location)
                     .font(.custom(CustomFonts.ExoBold, size: 50))
                     .minimumScaleFactor(0.5)
                     .foregroundStyle(Color.white)
-    //                .background(Color.red)
                     .padding(.top, 50)
                     .fontWeight(.heavy)
                 
@@ -38,7 +71,6 @@ struct CityWeatherDetails: View {
                         .foregroundColor(Color.white)
                     Text(String(model.temperature.current) + "°C")
                         .font(.custom(CustomFonts.ExoBold, size: 30))
-        //                .background(Color.red)
                         .fontWeight(.medium)
                         .foregroundStyle(Color.white)
                 }
@@ -74,7 +106,6 @@ struct CityWeatherDetails: View {
                 
                 Text(model.description)
                     .font(.custom(CustomFonts.ExoMedium, size: 30))
-    //                .background(Color.red)
                     .fontWeight(.medium)
                     .foregroundColor(Color.white)
                 
@@ -160,5 +191,5 @@ struct CityWeatherDetails: View {
 }
 
 #Preview {
-    CityWeatherDetails(model: WeatherModel(location: "New York", temperature: Temperature(current: 23, max: 24, min: 20), windSpeed: 4.0, humidity: 23.0,description: "Rainy day",iconCode: "02d"))
+    CityWeatherDetails(viewModel: WeatherViewModel(), model: WeatherModel(location: "New York", temperature: Temperature(current: 23, max: 24, min: 20), windSpeed: 4.0, humidity: 23.0,description: "Rainy day",iconCode: "02d"))
 }

@@ -75,7 +75,7 @@ struct WeatherView: View {
                             showCityWeather.toggle()
                         }
                         .sheet(isPresented: $showCityWeather, content: {
-                        CityWeatherDetails(model: data)
+                            CityWeatherDetails(viewModel: viewModel, model: data)
             //                .presentationDetents([.medium])
                                 .presentationDragIndicator(.visible)
                     })

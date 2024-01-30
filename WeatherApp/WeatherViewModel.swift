@@ -50,7 +50,10 @@ class WeatherViewModel: ObservableObject{
                 self?.weatherData.append(model3)
             }
         }
-        
+    }
+    
+    func refreshData(cityName: String) async -> WeatherModel?{
+        return await createWeatherData(cityName: "Colombo") ?? nil
     }
     
     func createWeatherData(cityName: String) async -> WeatherModel?{
